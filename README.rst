@@ -57,7 +57,7 @@ You can set ``SVG_DIRS`` to control where to look for your svgs.
 
     # settings.py
 
-    SVG_DIRS=[
+    SVG_DIRS = [
         os.path.join(BASE_DIR, 'my-svgs')
     ]
 
