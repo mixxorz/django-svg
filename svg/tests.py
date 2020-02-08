@@ -18,6 +18,17 @@ class SVGTemplateTagTest(SimpleTestCase):
 
         self.assertEqual(svg_file, template.render(Context()))
 
+    def test_should_support_attributes(self):
+        svg_file = open(os.path.join(settings.BASE_DIR,
+                                     'static',
+                                     'svg',
+                                     'django.svg')).read()
+        template = Template("{% load svg %}{% svg 'django' id='logo' class='large' %}")
+
+        self.assertNotEqual(svg_file, template.render(Context()))
+        self.assertIn('id="logo"', template.render(Context()))
+        self.assertIn('class="large"', template.render(Context()))
+
     def test_when_given_invalid_file_it_should_fail_silently(self):
         template = Template("{% load svg %}{% svg 'thisdoesntexist' %}")
 

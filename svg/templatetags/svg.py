@@ -15,7 +15,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def svg(filename):
+def svg(filename, *args, **kwargs):
     SVG_DIRS = getattr(settings, 'SVG_DIRS', [])
 
     if type(SVG_DIRS) != list:
@@ -49,6 +49,12 @@ def svg(filename):
         path = path[0]
 
     with open(path) as svg_file:
-        svg = mark_safe(svg_file.read())
+        svg = svg_file.read()
+
+    if kwargs:
+        attributes = " ".join(["{}=\"{}\"".format(k, v) for k, v in kwargs.items()])
+        svg = svg.replace('<svg', '<svg ' + attributes)
+
+    svg = mark_safe(svg)
 
     return svg
